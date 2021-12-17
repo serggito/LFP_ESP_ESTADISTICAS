@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
-using API_Partidos_Futbol.Models;
+using Utilities.Models;
 
 #nullable disable
 

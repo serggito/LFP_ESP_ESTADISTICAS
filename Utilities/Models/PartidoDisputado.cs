@@ -3,9 +3,9 @@ using System.Collections.Generic;
 
 #nullable disable
 
-namespace API_Partidos_Futbol.Models
+namespace Utilities.Models
 {
-    public partial class PartidoDisputado
+    public class PartidoDisputado
     {
         public int Id { get; set; }
         public string Season { get; set; }

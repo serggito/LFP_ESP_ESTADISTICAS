@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "API_Partidos_Futbol", "API_
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MVC_Futbol", "MVC_Futbol\MVC_Futbol.csproj", "{884DBFE8-DB45-45FF-9A24-4C65B6210AE9}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Utilities", "Utilities\Utilities.csproj", "{F9C88AF0-1C47-4994-9BF3-59EF3D4EA499}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{884DBFE8-DB45-45FF-9A24-4C65B6210AE9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{884DBFE8-DB45-45FF-9A24-4C65B6210AE9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{884DBFE8-DB45-45FF-9A24-4C65B6210AE9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F9C88AF0-1C47-4994-9BF3-59EF3D4EA499}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F9C88AF0-1C47-4994-9BF3-59EF3D4EA499}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F9C88AF0-1C47-4994-9BF3-59EF3D4EA499}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F9C88AF0-1C47-4994-9BF3-59EF3D4EA499}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

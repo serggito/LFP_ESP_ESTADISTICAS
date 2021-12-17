@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using API_Partidos_Futbol.Context;
-using API_Partidos_Futbol.Models;
+using Utilities.Models;
 
 namespace API_Partidos_Futbol.Controllers
 {
