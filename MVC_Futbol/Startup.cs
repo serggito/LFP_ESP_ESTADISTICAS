@@ -1,14 +1,8 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using MVC_Futbol.Utility;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace MVC_Futbol
 {
@@ -25,10 +19,24 @@ namespace MVC_Futbol
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
+
+
             /*
              Is registered as a Singleton and can be injected into any service lifetime.
              */
-            services.Configure<Configuracion>(Configuration.GetSection("Configuracion"));
+
+            // Configuration.GetSection("Configuracion");
+            // services.Configure<Configuracion>(Configuration.GetSection("Configuracion"));
+            // services.Configure(options => Configuration.GetSection("Configuracion"));
+            /*
+            var seccion = Configuration.GetSection(nameof(Configuracion));
+            services.AddSingleton(seccion.Get<Configuracion>());
+
+            
+            
+            */
+            // services.AddTransient<Peticion>();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

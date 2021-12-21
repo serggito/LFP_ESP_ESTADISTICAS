@@ -1,8 +1,60 @@
-﻿@{
+﻿@model IEnumerable<PartidoDisputado>
+@{
     ViewData["Title"] = "Home Page";
+
+    // y para llamarlo desde html lo acemos asi:
+    // @UnixTimeStampToDateTime(@item.Timestamp)
+    // https://stackoverflow.com/questions/6531983/how-to-create-a-function-in-a-cshtml-template
+}
+
+@functions{
+    public DateTime UnixTimeStampToDateTime(int unixTimeStamp)
+    {
+        // Unix timestamp is seconds past epoch
+        System.DateTime dtDateTime = new DateTime(1970, 1, 1, 0, 0, 0, 0, System.DateTimeKind.Utc);
+        dtDateTime = dtDateTime.AddSeconds(Convert.ToDouble(unixTimeStamp)).ToLocalTime();
+        return dtDateTime;
+    }
+
+    
 }
 
 <div class="text-center">
     <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+    <table id="encuentrosIndex">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Fecha</th>
+                <th>Año</th>
+                <th>Division</th>
+                <th>Jornada nº</th>
+                <th>Local</th>
+                <th>Resultado</th>
+                <th>Visitante</th>
+                <!--<th colspan="3">Resultado</th>-->
+                <th>Temporada</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                DateTime datetime = @UnixTimeStampToDateTime(item.Timestamp);
+            <tr>
+                <td>@item.Id</td>
+                <td>@datetime.ToString("dd-MM-yy")</td>
+                <td>@datetime.Year</td>
+                <td>@item.Division</td>
+                <td>@item.Round</td>
+                <td>@item.LocalTeam</td>
+                <td>@item.LocalGoals - @item.VisitorGoals</td>
+                <td>@item.VisitorTeam</td>
+                @*
+                <td>@item.LocalTeam @item.LocalGoals - @item.VisitorGoals @item.VisitorTeam</td>
+                *@
+                <td>@item.Season.Remove(0, 2)</td>
+            </tr>
+            }
+        </tbody>
+    </table>
 </div>

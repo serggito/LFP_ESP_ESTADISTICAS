@@ -1,18 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
+﻿using API_Partidos_Futbol.Context;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using API_Partidos_Futbol.Context;
+using System.Linq;
+using System.Threading.Tasks;
 using Utilities.Models;
 
 namespace API_Partidos_Futbol.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class PartidoDisputadoController : ControllerBase
+    public class PartidoDisputadoController : ControllerBase, IPartidoDisputadoController
     {
         private readonly PartidosFutbolDbContext _context;
 
@@ -21,7 +18,7 @@ namespace API_Partidos_Futbol.Controllers
             _context = context;
         }
 
-        
+
 
         // GET: api/PartidoDisputado/5
         [HttpGet("{id}")]

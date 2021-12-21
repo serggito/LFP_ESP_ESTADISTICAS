@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 
 #nullable disable
 
@@ -16,6 +15,6 @@ namespace Utilities.Models
         public byte? LocalGoals { get; set; }
         public byte? VisitorGoals { get; set; }
         public DateTime? Date { get; set; }
-        public int? Timestamp { get; set; }
+        public int Timestamp { get; set; }
     }
 }

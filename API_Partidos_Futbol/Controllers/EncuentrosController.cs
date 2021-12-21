@@ -1,7 +1,6 @@
 ﻿using API_Partidos_Futbol.Context;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -11,7 +10,7 @@ using Utilities.Models;
 
 namespace API_Partidos_Futbol.Controllers
 {
-    
+
     [ApiController]
     public class EncuentrosController : ControllerBase
     {
@@ -23,19 +22,30 @@ namespace API_Partidos_Futbol.Controllers
             _context = context;
         }
 
-
         // GET: api/Encuentros
         [HttpGet]
         [Route("api/[controller]/index")]
-        [Route("api/[controller]")]
-        public async Task<ActionResult<IEnumerable<PartidoDisputado>>> GetPartidosDisputados()
+        public async Task<ActionResult<IEnumerable<PartidoDisputado>>> GetPartidosDisputados(int pageNumber = 2, int PageSize = 20)
         {
-            int pageNumber = 1;
-            int PageSize = 10;
-            var pagedData = await _context.PartidosDisputados
-               .Skip((pageNumber - 1) * PageSize)
-               .Take(PageSize)
-               .ToListAsync();
+            // var lastFirst = await _context.PartidosDisputados
+
+            var lastFirst = await _context.PartidosDisputados.OrderByDescending(x => x.Id)
+                     .Skip((pageNumber - 1) * PageSize)
+                     .Take(PageSize)
+                     .ToListAsync();
+
+            return lastFirst;
+        }
+
+        [HttpPost]
+        [Route("api/[controller]")]
+        public async Task<ActionResult<IEnumerable<PartidoDisputado>>> GetPartidosDisputadosPost(int pageNumber = 1, int PageSize = 10)
+        {
+            var pagedData =
+            await _context.PartidosDisputados
+                          .Skip((pageNumber - 1) * PageSize)
+                          .Take(PageSize)
+                          .ToListAsync();
 
             return pagedData;
         }
