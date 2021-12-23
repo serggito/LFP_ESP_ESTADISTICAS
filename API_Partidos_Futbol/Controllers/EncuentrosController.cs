@@ -25,7 +25,7 @@ namespace API_Partidos_Futbol.Controllers
         // GET: api/Encuentros
         [HttpGet]
         [Route("api/[controller]/index")]
-        public async Task<ActionResult<IEnumerable<PartidoDisputado>>> GetPartidosDisputados(int pageNumber = 2, int PageSize = 20)
+        public async Task<ActionResult<IEnumerable<PartidoDisputado>>> GetPartidosDisputados(int pageNumber = 1, int PageSize = 20)
         {
             // var lastFirst = await _context.PartidosDisputados
 

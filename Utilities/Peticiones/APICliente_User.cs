@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Utilities.Peticiones
+﻿namespace Utilities.Peticiones
 {
     public partial class APICliente_User
     {

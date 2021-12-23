@@ -1,7 +1,9 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.Net.Http;
+using System.Text;
 using System.Threading.Tasks;
+using Utilities.Models;
 
 namespace Utilities.Peticiones
 {
@@ -46,11 +48,11 @@ namespace Utilities.Peticiones
             var data = await response.Content.ReadAsStringAsync();
             return JsonConvert.DeserializeObject<T>(data);
         }
-        /*
+
         /// <summary>  
         /// Common method for making POST calls  
         /// </summary>  
-        private async Task<Mensaje<T>> PostAsync<T>(Uri requestUrl, T content)
+        public async Task<Mensaje<T>> PostAsync<T>(Uri requestUrl, T content)
         {
             addHeaders();
             var response = await _httpClient.PostAsync(requestUrl.ToString(), CreateHttpContent<T>(content));
@@ -58,6 +60,7 @@ namespace Utilities.Peticiones
             var data = await response.Content.ReadAsStringAsync();
             return JsonConvert.DeserializeObject<Mensaje<T>>(data);
         }
+
         private async Task<Mensaje<T1>> PostAsync<T1, T2>(Uri requestUrl, T2 content)
         {
             addHeaders();
@@ -67,7 +70,21 @@ namespace Utilities.Peticiones
             return JsonConvert.DeserializeObject<Mensaje<T1>>(data);
         }
 
-        
+        public async Task<bool> DeleteAsync(Uri requestUrl, int id)
+        {
+            //var response = _httpClient.DeleteAsync(requestUrl.ToString());
+
+            Result result = new Result(false, "");
+            var url = new Uri(requestUrl.ToString() + id);
+
+            var response = await _httpClient.DeleteAsync(url);
+            var responseContent = await response.Content.ReadAsStringAsync();
+            result.IsSuccess = response.IsSuccessStatusCode;
+            result.ResultJson = responseContent;
+
+            return result.IsSuccess == true ? true : false;
+        }
+
 
         private HttpContent CreateHttpContent<T>(T content)
         {
@@ -85,9 +102,6 @@ namespace Utilities.Peticiones
                 };
             }
         }
-        */
-
-
 
     }
 }
