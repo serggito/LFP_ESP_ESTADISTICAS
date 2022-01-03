@@ -5,6 +5,8 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
+using System.Net.Http.Json;
+using System.Text;
 using System.Threading.Tasks;
 using Utilities.Models;
 using Utilities.Peticiones;
@@ -117,14 +119,14 @@ namespace MVC_Futbol.Controllers
             {
                 return RedirectToAction("Index");
             }
-            
         }
 
         // POST: PartidoController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public async Task<ActionResult> Edit(PartidoDisputado pd)
         {
+            /*
             try
             {
                 return RedirectToAction(nameof(Index));
@@ -132,6 +134,35 @@ namespace MVC_Futbol.Controllers
             catch
             {
                 return View();
+            }
+            */
+            // HACIENDO este metodo, la request me dio errores 415 Unsuported media type, 405 not allowed y 400 bad request
+            // 415 https://stackoverflow.com/questions/55473838/httpclient-statuscode-415-reasonphrase-unsupported-media-type
+            // 405 https://stackoverflow.com/questions/15718741/405-method-not-allowed-web-api
+            // 400 https://stackoverflow.com/questions/37380337/httpclient-keeps-receiving-bad-request
+
+            /*
+            string message = JsonConvert.SerializeObject(pd);
+            byte[] messageBytes = System.Text.Encoding.UTF8.GetBytes(message);
+            var content = new ByteArrayContent(messageBytes);
+            content.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("application/json");
+            */
+
+
+            var jsonContent = new StringContent(JsonConvert.SerializeObject(pd), Encoding.UTF8, "application/json");
+            HttpResponseMessage response = await httpClient.PutAsync(this.urlBase + "api/PartidoDisputado/" + pd.Id, jsonContent);
+            var contents = await response.Content.ReadAsStringAsync();
+
+            PartidoDisputado prtdsp = JsonConvert.DeserializeObject<PartidoDisputado>(contents);
+            if (response.IsSuccessStatusCode)
+            {
+                // Get the URI of the created resource.
+                //Uri returnUrl = response.Headers.Location;
+                return RedirectToAction("Index", "Home");
+            }
+            else
+            {
+                return View("Edit", prtdsp);
             }
         }
 
