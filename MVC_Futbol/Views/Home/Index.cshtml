@@ -54,9 +54,14 @@
                 <td>@item.VisitorTeam</td>
                 <td><a asp-controller="Partido" asp-action="Details" asp-route-id="@item.Id">Details</a></td>
                 <td><a asp-controller="Partido" asp-action="Edit" asp-route-id="@item.Id">Edit</a></td>
-                <td><a asp-controller="Partido" asp-action="Delete" asp-route-id="@item.Id">Delete</a></td>
+                <!-- Si pongo en el asp-action Delete da error porque sera una palabra reservada de Razor -->
+                <td>
+                    <a asp-controller="Partido" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                    @Html.ActionLink("Delete txt 2", "RemoveItem", "Partido", new { id = @item.Id })
+
+                </td>
                 @*
-        <td>@item.LocalTeam @item.LocalGoals - @item.VisitorGoals @item.VisitorTeam</td>
+                <td>@item.LocalTeam @item.LocalGoals - @item.VisitorGoals @item.VisitorTeam</td>
                 *@
                 <td>@item.Season.Remove(0, 2)</td>
             </tr>

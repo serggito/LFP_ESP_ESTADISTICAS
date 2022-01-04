@@ -4,6 +4,7 @@ using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Json;
 using System.Text;
@@ -20,6 +21,7 @@ namespace MVC_Futbol.Controllers
         private IConfiguration configuration;
         private string urlBase;
         private readonly HttpClient httpClient;
+        private List<PartidoDisputado> partidosDisputados;
 
         // se puede obtener de otra forma la configuracion tambien, en vez de solo la propiedad, meter objeto y obtenerlo
         // https://medium.com/@dozieogbo/a-better-way-to-inject-appsettings-in-asp-net-core-96be36ffa22b
@@ -105,6 +107,7 @@ namespace MVC_Futbol.Controllers
         }
 
         // GET: PartidoController/Edit/5
+        [HttpGet]
         public async Task<ActionResult> Edit(int id)
         {
             HttpResponseMessage response = await httpClient.GetAsync(this.urlBase + "api/PartidoDisputado/" + id);
@@ -151,6 +154,7 @@ namespace MVC_Futbol.Controllers
 
             var jsonContent = new StringContent(JsonConvert.SerializeObject(pd), Encoding.UTF8, "application/json");
             HttpResponseMessage response = await httpClient.PutAsync(this.urlBase + "api/PartidoDisputado/" + pd.Id, jsonContent);
+            IEnumerable<string> cookies = response.Headers.SingleOrDefault(header => header.Key == "Set-Cookie").Value;
             var contents = await response.Content.ReadAsStringAsync();
 
             PartidoDisputado prtdsp = JsonConvert.DeserializeObject<PartidoDisputado>(contents);
@@ -166,57 +170,119 @@ namespace MVC_Futbol.Controllers
             }
         }
 
-        [HttpGet]
+
         // GET: PartidoController/Delete/5
-        public ActionResult Delete()
+        [HttpGet("{id}")]
+        public async Task<ActionResult> Delete(int id)
         {
-            return View();
+            HttpResponseMessage response = await this.httpClient.DeleteAsync(this.urlBase + "api/PartidoDisputado/" + id);
+            return RedirectToAction("Index", "Home");
         }
 
-
-        // DELETE: PartidoController/Delete/5
-        [HttpPost("{id:int}")]
-        public async Task<ActionResult> Delete(int id) // IFormCollection collection
+        [HttpGet]
+        public async Task<ActionResult> RemoveItem(int id)
         {
-            return RedirectToAction("Index");
+            PartidoDisputado partidoDisputado = await this.getPartidoById(id);
+            return View(partidoDisputado);
+        }
 
-            /*
-            HttpResponseMessage response = await this.httpClient.DeleteAsync(this.urlBase + "/api/PartidoDisputado/" + id);
+        /*
+        // POST: PartidoController/Delete/5
+        [HttpPost("{id:int}")]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> RemoveItem(PartidoDisputado partidoDisputado) // IFormCollection collection
+        {
+
+            HttpResponseMessage response = await this.httpClient.DeleteAsync(this.urlBase + "api/PartidoDisputado/" + partidoDisputado.Id);
             if (response.IsSuccessStatusCode)
             {
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", "Home");
             }
             else
             {
                 return View();
             }
-            */
+        }
+        */
 
-            /*
+        /*
+            // POST: PartidoController/Delete/5
+            [HttpPost("{id:int}")]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> RemoveItem(int id) // IFormCollection collection
+        {
+            
+            HttpResponseMessage response = await this.httpClient.DeleteAsync(this.urlBase + "api/PartidoDisputado/" + id);
+            if (response.IsSuccessStatusCode)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+            else
+            {
+                return View();
+            }
+            
+
+            
+            //try
+            //{
+                
+            //    var requestUrl = peticion.CreateRequestUri(string.Format(System.Globalization.CultureInfo.InvariantCulture, "/api/PartidoDisputado"));
+            //    var response = await peticion.DeleteAsync(requestUrl, id);
+                
+
+                
+            //    HttpResponseMessage response = await httpClient.DeleteAsync("/api/PartidoDisputado/" + id);
+            //    if (response.IsSuccessStatusCode)
+            //    {
+            //        return RedirectToAction(nameof(Index));
+            //    } else
+            //    {
+            //        return View();
+            //    }
+
+            //    // return RedirectToAction(nameof(Index));
+            //}
+            //catch
+            //{
+            //    return View();
+            //}
+            
+        }
+        */
+
+        // POST: HomeController1/Delete/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> RemoveItem(int id, IFormCollection collection)
+        {
             try
             {
+                HttpResponseMessage response = await this.httpClient.DeleteAsync(this.urlBase + "api/PartidoDisputado/" + id);
+                return RedirectToAction("Index", "Home");
                 
-                var requestUrl = peticion.CreateRequestUri(string.Format(System.Globalization.CultureInfo.InvariantCulture, "/api/PartidoDisputado"));
-                var response = await peticion.DeleteAsync(requestUrl, id);
-                
-
-                
-                HttpResponseMessage response = await httpClient.DeleteAsync("/api/PartidoDisputado/" + id);
-                if (response.IsSuccessStatusCode)
-                {
-                    return RedirectToAction(nameof(Index));
-                } else
-                {
-                    return View();
-                }
-
                 // return RedirectToAction(nameof(Index));
             }
             catch
             {
                 return View();
             }
-            */
+        }
+
+        private async Task<PartidoDisputado> getPartidoById(int id)
+        {
+            HttpResponseMessage response = await httpClient.GetAsync(this.urlBase + "api/PartidoDisputado/" + id);
+            var contents = await response.Content.ReadAsStringAsync();
+            PartidoDisputado prtdsp = JsonConvert.DeserializeObject<PartidoDisputado>(contents);
+
+            if (response.IsSuccessStatusCode)
+            {
+                return prtdsp;
+            }
+            else
+            {
+                return null;
+            }
         }
     }
 }
