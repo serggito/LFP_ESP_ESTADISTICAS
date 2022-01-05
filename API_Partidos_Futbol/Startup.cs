@@ -35,6 +35,10 @@ namespace API_Partidos_Futbol
                 options.UseSqlServer(Configuration.GetConnectionString("futbolBBDD"))
             );
 
+            services.AddDbContext<UserDbContext>(options =>
+                options.UseSqlServer(Configuration.GetConnectionString("futbolBBDD"))
+            );
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "API_Partidos_Futbol", Version = "v1" });
