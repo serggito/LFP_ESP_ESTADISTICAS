@@ -1,16 +1,4 @@
 ﻿@using MVC_Futbol
 @using MVC_Futbol.Models
 @using Utilities.Models
-
-@functions {
-public static DateTime UnixTimeStampToDateTime(int unixTimeStamp)
-    {
-        // Unix timestamp is seconds past epoch
-        System.DateTime dtDateTime = new DateTime(1970, 1, 1, 0, 0, 0, 0, System.DateTimeKind.Utc);
-        dtDateTime = dtDateTime.AddSeconds(Convert.ToDouble(unixTimeStamp)).ToLocalTime();
-
-        return dtDateTime;
-    }
-}
-
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers

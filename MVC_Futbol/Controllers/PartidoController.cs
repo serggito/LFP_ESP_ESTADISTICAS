@@ -35,6 +35,7 @@ namespace MVC_Futbol.Controllers
         }
 
         // GET: PartidoController
+        [HttpGet("/index")]
         public ActionResult Index()
         {
             return View();
@@ -43,19 +44,12 @@ namespace MVC_Futbol.Controllers
         // GET: PartidoController/Details/5
         public async Task<ActionResult> DetailsAsync(int id)
         {
-            /*
-            var requestUrl = peticion.CreateRequestUri(string.Format(System.Globalization.CultureInfo.InvariantCulture, "/api/PartidoDisputado/" + id));
-            var data = await peticion.GetAsync<PartidoDisputado>(requestUrl);
+            PartidoDisputado prtdsp = await this.getPartidoById(id);
 
-            */
-
-            HttpResponseMessage response = await httpClient.GetAsync(this.urlBase + "api/PartidoDisputado/"+id);
-            var contents = await response.Content.ReadAsStringAsync();
-            PartidoDisputado prtdsp = JsonConvert.DeserializeObject<PartidoDisputado>(contents);
-            if (response.IsSuccessStatusCode)
+            if (prtdsp != null)
             {
                 // Get the URI of the created resource.
-                //Uri returnUrl = response.Headers.Location;
+                // Uri returnUrl = response.Headers.Location;
                 return View("details", prtdsp);
             }
 
@@ -76,27 +70,9 @@ namespace MVC_Futbol.Controllers
         {
             try
             {
-                // TODO
-                /*
-                int id = collection["name"];
-
-                PartidoDisputado partdisp = new PartidoDisputado();
-                partdisp.Id = form["Id"];
-                partdisp.Date = form["Date"];
-                partdisp.Division = form["Division"];
-                
-                partdisp.LocalGoals = form["LocalGoals"];
-                partdisp.LocalTeam = form["LocalTeam"];
-                partdisp.Round = form["Round"];
-                partdisp.Season = form["Season"];
-                partdisp.Timestamp = form["Timestamp"];
-                partdisp.VisitorGoals = form["VisitorGoals"];
-                partdisp.VisitorTeam = form["VisitorTeam"];
-                */
 
                 var requestUrl = peticion.CreateRequestUri(string.Format(System.Globalization.CultureInfo.InvariantCulture, "/api/PartidoDisputado"));
                 var response = await peticion.PostAsync<PartidoDisputado>(requestUrl, ptds);
-
 
                 return RedirectToAction("/HomeController/Index");
             }
@@ -110,10 +86,9 @@ namespace MVC_Futbol.Controllers
         [HttpGet]
         public async Task<ActionResult> Edit(int id)
         {
-            HttpResponseMessage response = await httpClient.GetAsync(this.urlBase + "api/PartidoDisputado/" + id);
-            var contents = await response.Content.ReadAsStringAsync();
-            PartidoDisputado prtdsp = JsonConvert.DeserializeObject<PartidoDisputado>(contents);
-            if (response.IsSuccessStatusCode)
+            PartidoDisputado prtdsp = await this.getPartidoById(id);
+
+            if (prtdsp != null)
             {
                 // Get the URI of the created resource.
                 //Uri returnUrl = response.Headers.Location;
@@ -172,7 +147,7 @@ namespace MVC_Futbol.Controllers
 
 
         // GET: PartidoController/Delete/5
-        [HttpGet("{id}")]
+        [HttpGet("/delete/{id}")]
         public async Task<ActionResult> Delete(int id)
         {
             HttpResponseMessage response = await this.httpClient.DeleteAsync(this.urlBase + "api/PartidoDisputado/" + id);
@@ -186,70 +161,6 @@ namespace MVC_Futbol.Controllers
             return View(partidoDisputado);
         }
 
-        /*
-        // POST: PartidoController/Delete/5
-        [HttpPost("{id:int}")]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult> RemoveItem(PartidoDisputado partidoDisputado) // IFormCollection collection
-        {
-
-            HttpResponseMessage response = await this.httpClient.DeleteAsync(this.urlBase + "api/PartidoDisputado/" + partidoDisputado.Id);
-            if (response.IsSuccessStatusCode)
-            {
-                return RedirectToAction("Index", "Home");
-            }
-            else
-            {
-                return View();
-            }
-        }
-        */
-
-        /*
-            // POST: PartidoController/Delete/5
-            [HttpPost("{id:int}")]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult> RemoveItem(int id) // IFormCollection collection
-        {
-            
-            HttpResponseMessage response = await this.httpClient.DeleteAsync(this.urlBase + "api/PartidoDisputado/" + id);
-            if (response.IsSuccessStatusCode)
-            {
-                return RedirectToAction("Index", "Home");
-            }
-            else
-            {
-                return View();
-            }
-            
-
-            
-            //try
-            //{
-                
-            //    var requestUrl = peticion.CreateRequestUri(string.Format(System.Globalization.CultureInfo.InvariantCulture, "/api/PartidoDisputado"));
-            //    var response = await peticion.DeleteAsync(requestUrl, id);
-                
-
-                
-            //    HttpResponseMessage response = await httpClient.DeleteAsync("/api/PartidoDisputado/" + id);
-            //    if (response.IsSuccessStatusCode)
-            //    {
-            //        return RedirectToAction(nameof(Index));
-            //    } else
-            //    {
-            //        return View();
-            //    }
-
-            //    // return RedirectToAction(nameof(Index));
-            //}
-            //catch
-            //{
-            //    return View();
-            //}
-            
-        }
-        */
 
         // POST: HomeController1/Delete/5
         [HttpPost]
