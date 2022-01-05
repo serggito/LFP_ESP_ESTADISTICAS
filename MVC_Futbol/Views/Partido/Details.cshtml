@@ -73,6 +73,21 @@
     </dl>
 </div>
 <div>
+    <div id="marcador">
+        <div>@Model.LocalTeam</div>
+        <div>@Model.LocalGoals</div>
+        <div>@Model.VisitorGoals</div>
+        <div>@Model.VisitorTeam</div>
+    </div>
+    <div>
+        @{ 
+            DateTime datetime = @_ViewImports.UnixTimeStampToDateTime(item.Timestamp);
+            @MyHelper
+        }
+        @_App_Code_MyHelper.UnixTimeStampToDateTime();
+    </div>
+</div>
+<div>
     @Html.ActionLink("Edit", "Edit", new {  id = Model.Id  }) |
     <a asp-action="Index">Back to List</a>
 </div>

@@ -1,9 +1,9 @@
-﻿@using MVC_Futbol
-@using MVC_Futbol.Models
-@using Utilities.Models
-
+﻿/*
 @functions {
-public static DateTime UnixTimeStampToDateTime(int unixTimeStamp)
+    public static WebViewPage page = (PageContext.Page as WebViewPage);
+    public static HtmlHelper<object> html = page.Html;
+
+    @helper DateTime UnixTimeStampToDateTime(int unixTimeStamp)
     {
         // Unix timestamp is seconds past epoch
         System.DateTime dtDateTime = new DateTime(1970, 1, 1, 0, 0, 0, 0, System.DateTimeKind.Utc);
@@ -12,5 +12,5 @@ public static DateTime UnixTimeStampToDateTime(int unixTimeStamp)
         return dtDateTime;
     }
 }
+*/
 
-@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
